@@ -117,42 +117,36 @@ def main():
         path=SCENES_DIR/f"scene_{i+1:02d}.jpg"
         make_card(scene,i,total).save(path,quality=94)
         images.append(path)
-    # Determine narration duration for scene pacing
-    probe=subprocess.check_output([
-        "ffprobe","-v","error","-show_entries","format=duration",
-        "-of","default=noprint_wrappers=1:nokey=1",str(OUT/"narration.mp3")
-    ],text=True).strip()
-    duration=float(probe)
-    per_scene=max(2.5,duration/total)
-    concat=OUT/"concat.txt"
-    with concat.open("w",encoding="utf-8") as f:
-        for p in images:
-            f.write(f"file '{p.resolve()}'\n")
-            f.write(f"duration {per_scene:.3f}\n")
-        f.write(f"file '{images[-1].resolve()}'\n")
-    # Timed captions, one scene caption per card
+    # Render each scene as a timed video segment; this avoids still-image concat timing bugs.
+    duration=float(subprocess.check_output(["ffprobe","-v","error","-show_entries","format=duration","-of","default=noprint_wrappers=1:nokey=1",str(OUT/"narration.mp3")],text=True).strip())
+    per_scene=duration/total
+    segments=[]
+    for i,image_path in enumerate(images):
+        segment=OUT/f"segment_{i+1:02d}.mp4"
+        subprocess.run(["ffmpeg","-y","-loop","1","-i",str(image_path),"-t",f"{per_scene:.3f}","-vf","scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1,format=yuv420p","-r","30","-c:v","libx264","-preset","veryfast","-crf","22","-pix_fmt","yuv420p","-an",str(segment)],check=True)
+        segments.append(segment)
+    concat=OUT/"segments.txt"
+    concat.write_text("".join(f"file '{p.resolve()}'\\n" for p in segments),encoding="utf-8")
+    silent_video=OUT/"silent_video.mp4"
+    subprocess.run(["ffmpeg","-y","-f","concat","-safe","0","-i",str(concat),"-c","copy",str(silent_video)],check=True)
     srt=[]
-    start=0.0
+    start_time=0.0
     for i,scene in enumerate(DATA["scenes"],1):
-        end=min(duration,start+per_scene)
+        end_time=min(duration,start_time+per_scene)
         def stamp(t):
             ms=int(round(t*1000)); h=ms//3600000; ms%=3600000
             m=ms//60000; ms%=60000; sec=ms//1000; milli=ms%1000
             return f"{h:02}:{m:02}:{sec:02},{milli:03}"
-        srt.append(f"{i}\n{stamp(start)} --> {stamp(end)}\n{scene['text']}\n")
-        start=end
-    (OUT/"captions.srt").write_text("\n".join(srt),encoding="utf-8")
-    # burn subtitles with Devanagari font and render 9:16
+        srt.append(f"{i}\\n{stamp(start_time)} --> {stamp(end_time)}\\n{scene['text']}\\n")
+        start_time=end_time
+    (OUT/"captions.srt").write_text("\\n".join(srt),encoding="utf-8")
     srt_path=str((OUT/"captions.srt").resolve()).replace("\\\\","/").replace(":","\\\\:")
-    vf=f"scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,zoompan=z='min(zoom+0.0007,1.06)':d=1:s=1080x1920:fps=30,subtitles='{srt_path}':force_style='FontName=Noto Sans Devanagari,FontSize=18,Outline=2,Shadow=1,Alignment=2,MarginV=180'"
+    vf=f"subtitles='{srt_path}':force_style='FontName=Noto Sans Devanagari,FontSize=18,Outline=2,Shadow=1,Alignment=2,MarginV=180'"
     video=OUT/"raazverse_short.mp4"
-    subprocess.run([
-        "ffmpeg","-y","-f","concat","-safe","0","-i",str(concat),
-        "-i",str(OUT/"narration.mp3"),"-vf",vf,
-        "-map","0:v:0","-map","1:a:0","-c:v","libx264","-preset","veryfast",
-        "-crf","22","-pix_fmt","yuv420p","-c:a","aac","-b:a","160k",
-        "-shortest","-movflags","+faststart",str(video)
-    ],check=True)
+    subprocess.run(["ffmpeg","-y","-i",str(silent_video),"-i",str(OUT/"narration.mp3"),"-vf",vf,"-map","0:v:0","-map","1:a:0","-c:v","libx264","-preset","veryfast","-crf","22","-pix_fmt","yuv420p","-c:a","aac","-b:a","128k","-shortest","-movflags","+faststart",str(video)],check=True)
+    final_duration=float(subprocess.check_output(["ffprobe","-v","error","-show_entries","format=duration","-of","default=noprint_wrappers=1:nokey=1",str(video)],text=True).strip())
+    if final_duration < duration*0.90:
+        raise SystemExit(f"Rendered video is too short: {final_duration:.2f}s vs narration {duration:.2f}s")
     # Thumbnail from first card
     Image.open(images[0]).convert("RGB").save(OUT/"thumbnail.jpg",quality=95)
     print("SUCCESS: created",video)
