@@ -1,36 +1,36 @@
 {
-  "title": "Aasman Neela Kyun Dikhta Hai? | Science Mystery",
+  "title": "आसमान नीला क्यों दिखता है? | Science Mystery",
   "voice": "hi-IN-MadhurNeural",
-  "narration": "Kabhi socha hai, aasman din mein neela hi kyun dikhta hai? Suraj ki roshni humein safed nazar aati hai, lekin ismein kai rang hote hain. Jab roshni hawa ke bahut chhote molecules se takrati hai, to neeli roshni laal roshni ke muqable mein zyada bikhar jaati hai. Science mein is process ko Rayleigh scattering kehte hain. Isi bikhri hui neeli roshni ki wajah se humein aasman neela dikhai deta hai. Aur sunset ke waqt roshni ko hawa mein lamba raasta tay karna padta hai, isliye neeli roshni zyada bikhar jaati hai aur laal-narangi rang hum tak pahunchte hain. Nature ka ye rangin raaz physics se samjha ja sakta hai.",
+  "narration": "क्या आपने कभी सोचा है कि दिन में आसमान नीला ही क्यों दिखाई देता है? सूरज की रोशनी हमें सफेद दिखती है, लेकिन इसमें कई रंग मौजूद होते हैं। जब सूरज की रोशनी हवा के बहुत छोटे अणुओं से टकराती है, तो नीली रोशनी लाल रोशनी की तुलना में अधिक बिखरती है। विज्ञान में इस प्रक्रिया को रेले स्कैटरिंग कहते हैं। इसी बिखरी हुई नीली रोशनी की वजह से हमें आसमान नीला दिखाई देता है। सूर्यास्त के समय रोशनी को हवा में लंबा रास्ता तय करना पड़ता है। इस दौरान नीली रोशनी रास्ते में अधिक बिखर जाती है और लाल तथा नारंगी रंग हमारी आंखों तक पहुंचते हैं। प्रकृति का यह रंगीन रहस्य भौतिक विज्ञान से समझा जा सकता है।",
   "scenes": [
     {
-      "heading": "EK AASMANI RAAZ",
-      "text": "Aasman din mein neela hi kyun dikhta hai?",
+      "heading": "आसमान का रहस्य",
+      "text": "आसमान दिन में नीला ही क्यों दिखता है?",
       "visual": "question"
     },
     {
-      "heading": "SAFED ROSHNI",
-      "text": "Suraj ki roshni mein kai rang chhupe hote hain",
+      "heading": "सफेद रोशनी",
+      "text": "सूरज की रोशनी में कई रंग छिपे होते हैं",
       "visual": "spectrum"
     },
     {
-      "heading": "HAVA KE MOLECULES",
-      "text": "Neeli roshni zyada bikhar jaati hai",
+      "heading": "हवा के अणु",
+      "text": "नीली रोशनी ज्यादा बिखर जाती है",
       "visual": "molecules"
     },
     {
-      "heading": "RAYLEIGH SCATTERING",
-      "text": "Isi process se aasman neela nazar aata hai",
+      "heading": "रेले स्कैटरिंग",
+      "text": "इसी प्रक्रिया से आसमान नीला दिखता है",
       "visual": "blue_sky"
     },
     {
-      "heading": "SUNSET KA JAADU",
-      "text": "Lamba raasta: laal aur narangi rang zyada dikhte hain",
+      "heading": "सूर्यास्त का जादू",
+      "text": "लाल और नारंगी रंग ज्यादा दिखाई देते हैं",
       "visual": "sunset"
     },
     {
-      "heading": "SCIENCE KA RAAZ",
-      "text": "Nature ke rangon ke peeche physics hai",
+      "heading": "विज्ञान का राज़",
+      "text": "प्रकृति के रंगों के पीछे भौतिक विज्ञान है",
       "visual": "ending"
     }
   ]
