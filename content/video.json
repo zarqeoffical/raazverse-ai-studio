@@ -1,0 +1,37 @@
+{
+  "title": "Aasman Neela Kyun Dikhta Hai? | Science Mystery",
+  "voice": "hi-IN-MadhurNeural",
+  "narration": "Kabhi socha hai, aasman din mein neela hi kyun dikhta hai? Suraj ki roshni humein safed nazar aati hai, lekin ismein kai rang hote hain. Jab roshni hawa ke bahut chhote molecules se takrati hai, to neeli roshni laal roshni ke muqable mein zyada bikhar jaati hai. Science mein is process ko Rayleigh scattering kehte hain. Isi bikhri hui neeli roshni ki wajah se humein aasman neela dikhai deta hai. Aur sunset ke waqt roshni ko hawa mein lamba raasta tay karna padta hai, isliye neeli roshni zyada bikhar jaati hai aur laal-narangi rang hum tak pahunchte hain. Nature ka ye rangin raaz physics se samjha ja sakta hai.",
+  "scenes": [
+    {
+      "heading": "EK AASMANI RAAZ",
+      "text": "Aasman din mein neela hi kyun dikhta hai?",
+      "visual": "question"
+    },
+    {
+      "heading": "SAFED ROSHNI",
+      "text": "Suraj ki roshni mein kai rang chhupe hote hain",
+      "visual": "spectrum"
+    },
+    {
+      "heading": "HAVA KE MOLECULES",
+      "text": "Neeli roshni zyada bikhar jaati hai",
+      "visual": "molecules"
+    },
+    {
+      "heading": "RAYLEIGH SCATTERING",
+      "text": "Isi process se aasman neela nazar aata hai",
+      "visual": "blue_sky"
+    },
+    {
+      "heading": "SUNSET KA JAADU",
+      "text": "Lamba raasta: laal aur narangi rang zyada dikhte hain",
+      "visual": "sunset"
+    },
+    {
+      "heading": "SCIENCE KA RAAZ",
+      "text": "Nature ke rangon ke peeche physics hai",
+      "visual": "ending"
+    }
+  ]
+}
