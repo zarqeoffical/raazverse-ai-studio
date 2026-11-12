@@ -29,7 +29,7 @@ def gradient(top, bottom):
 
 def centered(draw, text, y, fnt, fill, spacing=18):
     lines = []
-    for para in text.split("\\n"):
+    for para in text.split("\n"):
         lines.extend(textwrap.wrap(para, width=23) or [""])
     block_h = sum(draw.textbbox((0,0), line, font=fnt)[3] for line in lines) + spacing*(len(lines)-1)
     yy = y - block_h//2
@@ -127,9 +127,9 @@ def main():
     concat=OUT/"concat.txt"
     with concat.open("w",encoding="utf-8") as f:
         for p in images:
-            f.write(f"file '{p.resolve()}'\\n")
-            f.write(f"duration {per_scene:.3f}\\n")
-        f.write(f"file '{images[-1].resolve()}'\\n")
+            f.write(f"file '{p.resolve()}'\n")
+            f.write(f"duration {per_scene:.3f}\n")
+        f.write(f"file '{images[-1].resolve()}'\n")
     # Timed captions, one scene caption per card
     srt=[]
     start=0.0
@@ -139,9 +139,9 @@ def main():
             ms=int(round(t*1000)); h=ms//3600000; ms%=3600000
             m=ms//60000; ms%=60000; sec=ms//1000; milli=ms%1000
             return f"{h:02}:{m:02}:{sec:02},{milli:03}"
-        srt.append(f"{i}\\n{stamp(start)} --> {stamp(end)}\\n{scene['text']}\\n")
+        srt.append(f"{i}\n{stamp(start)} --> {stamp(end)}\n{scene['text']}\n")
         start=end
-    (OUT/"captions.srt").write_text("\\n".join(srt),encoding="utf-8")
+    (OUT/"captions.srt").write_text("\n".join(srt),encoding="utf-8")
     # burn subtitles with Devanagari font and render 9:16
     srt_path=str((OUT/"captions.srt").resolve()).replace("\\\\","/").replace(":","\\\\:")
     vf=f"scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,zoompan=z='min(zoom+0.0007,1.06)':d=1:s=1080x1920:fps=30,subtitles='{srt_path}':force_style='FontName=Noto Sans Devanagari,FontSize=18,Outline=2,Shadow=1,Alignment=2,MarginV=180'"
