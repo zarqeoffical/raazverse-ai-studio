@@ -1,39 +1,49 @@
-name: Build Short Video
+name: Create RAAZVERSE Short
 
 on:
   workflow_dispatch:
   push:
     paths:
-      - "assets/**"
       - "content/**"
-      - "render.py"
+      - "auto_create.py"
       - ".github/workflows/build-short.yml"
 
 permissions:
   contents: read
 
 jobs:
-  render:
+  create-short:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Install FFmpeg
+
+      - name: Install FFmpeg and Hindi font
         run: |
           sudo apt-get update
-          sudo apt-get install -y ffmpeg
+          sudo apt-get install -y ffmpeg fonts-noto-core
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+
       - name: Install dependencies
         run: pip install -r requirements.txt
-      - name: Render vertical Short
-        run: python render.py
-      - name: Upload rendered video
+
+      - name: Generate narration, visuals and video
+        run: python auto_create.py
+
+      - name: Upload finished Short and preview files
         uses: actions/upload-artifact@v4
         with:
           name: raazverse-short-video
-          path: output/raazverse_short.mp4
+          path: |
+            output/raazverse_short.mp4
+            output/thumbnail.jpg
+            output/narration.mp3
+            output/captions.srt
+            output/script.txt
           if-no-files-found: error
           retention-days: 7
